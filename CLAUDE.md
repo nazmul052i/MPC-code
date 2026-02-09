@@ -61,11 +61,9 @@ Example files serve as **configuration modules** loaded by `MPC_code.py`. Each f
 - **NumPy** - Matrix operations
 - **SciPy** - Linear algebra (`scipy.linalg`), optimization (`scipy.optimize`), ODE integration
 - **Matplotlib** - Visualization and plotting
-- **future / past** - Python 2/3 compatibility
-
 No `requirements.txt` exists. Install manually:
 ```bash
-pip install casadi numpy scipy matplotlib future
+pip install casadi numpy scipy matplotlib
 ```
 
 ## How to Run
@@ -83,13 +81,9 @@ python MPC_code.py
 
 This runs the full MPC simulation loop and generates plots.
 
-## Python Version Compatibility
+## Python Version
 
-The codebase supports **both Python 2 and Python 3**. Key compatibility patterns:
-- `from builtins import range` in `MPC_code.py`
-- `from __future__ import division` in NMPC examples
-- `from past.utils import old_div` for Python 2 division semantics
-- UTF-8 encoding declared in all files (`# -*- coding: utf-8 -*-`)
+**Python 3 only.** All Python 2 compatibility code (`__future__`, `builtins`, `past.utils`) has been removed.
 
 ## Key Conventions
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on December 3, 2015
 
@@ -6,7 +5,6 @@ Created on December 3, 2015
 
 MPC code main file
 """
-from builtins import range
 from casadi import *
 from casadi.tools import *
 from matplotlib import pylab as plt

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on December 3, 2015
 
@@ -6,10 +5,6 @@ Created on December 3, 2015
 
 Estimator envelope file
 """
-from __future__ import division
-
-from builtins import range
-from past.utils import old_div
 from casadi import *
 from casadi.tools import *
 from matplotlib import pylab as plt
@@ -427,7 +422,7 @@ def mhe(Fx,Fy,y_act,u_k,P_k,xhat_min,F_obj,ts,t_k,dxm,dym,U,Y,T,Xmin,X,V,W,w_k,v
     
     """  
     
-    ksim = int(round(old_div(t_k,ts)))
+    ksim = int(round(t_k / ts))
     n = xhat_min.size1()
     m = u_k.size1()
     p = y_act.size1()

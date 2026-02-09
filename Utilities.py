@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on December 3, 2015
 
@@ -6,11 +5,6 @@ Created on December 3, 2015
 
 Utilities for general purposes
 """
-from __future__ import division
-
-from builtins import str
-from builtins import range
-from past.utils import old_div
 from casadi import *
 from casadi.tools import *
 from matplotlib import pylab as plt
@@ -430,7 +424,7 @@ def makeplot(tsim,X1,label,pf,*var,**kwargs):
     
     X1 = np.array(X1)
     
-    sz = old_div(X1.size,nt)
+    sz = X1.size // nt
     Xout1 = np.zeros((nt,sz))
     Xout2 = np.zeros((nt,sz))
     Xout3 = np.zeros((nt,sz))

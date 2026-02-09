@@ -1,11 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Created on Tue Jan 12 12:11:54 2016
 
 @author: marcovaccari
 """
-from __future__ import division
-from past.utils import old_div
 from casadi import *
 from casadi.tools import *
 from matplotlib import pylab as plt
@@ -67,13 +64,13 @@ def User_fxp_Cont(x,t,u):
     Cp2 = 0.239 # kJ/kg
     DH = -5.0e4 # kJ/kmol
     pi = math.pi
-    kT0 = k0*exp(old_div(-EoR,T0))
+    kT0 = k0*exp(-EoR / T0)
     
     fx_p = vertcat\
     (\
-    F0*(c0 - x[0])/(pi* r**2 *x[2]) - kT0*exp(-EoR*(old_div(1.0,x[1])-old_div(1.0,T0)))*x[0], \
-    F0*(T0 - x[1])/(pi* (r**2) *x[2]) -DH/(rho*Cp2)*kT0*exp(-EoR*(old_div(1.0,x[1])-old_div(1.0,T0)))*x[0] + 2*U0/(r*rho*Cp2)*(u[0] - x[1]), \
-    old_div((F0 - u[1]),(pi*r**2)) \
+    F0*(c0 - x[0])/(pi* r**2 *x[2]) - kT0*exp(-EoR*(1.0 / x[1]-1.0 / T0))*x[0], \
+    F0*(T0 - x[1])/(pi* (r**2) *x[2]) -DH/(rho*Cp2)*kT0*exp(-EoR*(1.0 / x[1]-1.0 / T0))*x[0] + 2*U0/(r*rho*Cp2)*(u[0] - x[1]), \
+    (F0 - u[1]) / (pi*r**2) \
     )
     
     return fx_p
@@ -92,7 +89,7 @@ Clin = np.array([[1.0, 0.0, 0.0], [0.0, 0.0, 1.0]])
 ## Extra state (to test different plant/model size)
 Phi = 0.01
 B_Phi = np.array([[1.0 - Phi, 0.0]])
-C_Phi = (old_div(Phi,10.0))*np.array([[1.0],[0.0]])
+C_Phi = (Phi / 10.0)*np.array([[1.0],[0.0]])
 
 A = scla.block_diag(Alin, Phi)
 B = np.row_stack([Blin,B_Phi])

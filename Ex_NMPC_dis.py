@@ -1,12 +1,8 @@
-# -*- coding: utf-8 -*-
 """
 Created on Tue Jan 12 12:11:54 2016
 
 @author: marcovaccari
 """
-from __future__ import division
-from builtins import range
-from past.utils import old_div
 from casadi import *
 from casadi.tools import *
 from matplotlib import pylab as plt
@@ -66,8 +62,8 @@ def Fdyn_p(x,u):
     # max flowrate [cm^3/s]
     q1_max = (a1+a4)*(2.0*g*h1_max)**0.5
     q2_max = (a2+a3)*(2.0*g*h2_max)**0.5
-    K1 = old_div(q1_max,100.0)
-    K2 = old_div(q2_max,100.0)
+    K1 = q1_max / 100.0
+    K2 = q2_max / 100.0
 
     fx = SX(4,1)
     
@@ -78,16 +74,16 @@ def Fdyn_p(x,u):
 
     # TC system of equations:
     ## tank #1 x[2]:fx_p[2] (left lower)
-    fx[0] = -(old_div(a1,A1))*(2.0*g*x[0])**0.5 + (old_div(a3,A1))*(2.0*g*x[2])**0.5 + (old_div(gm1,A1))*K1*u[0]
+    fx[0] = -(a1 / A1)*(2.0*g*x[0])**0.5 + (a3 / A1)*(2.0*g*x[2])**0.5 + (gm1 / A1)*K1*u[0]
     
     ## tank #2 x[3]:fx_p[3] (right lower)
-    fx[1] = -(old_div(a2,A2))*(2.0*g*x[1])**0.5 + (old_div(a4,A2))*(2.0*g*x[3])**0.5 + (old_div(gm2,A2))*K2*u[1]
+    fx[1] = -(a2 / A2)*(2.0*g*x[1])**0.5 + (a4 / A2)*(2.0*g*x[3])**0.5 + (gm2 / A2)*K2*u[1]
     
     ## tank #3 x[4]:fx_p[4] (left upper)
-    fx[2] = -(old_div(a3,A3))*(2.0*g*x[2])**0.5 + (old_div((1.0 - gm2),A3))*K2*u[1]
+    fx[2] = -(a3 / A3)*(2.0*g*x[2])**0.5 + ((1.0 - gm2) / A3)*K2*u[1]
     
     ## tank #4 x[5]:fx_p[5] (right upper)
-    fx[3] = -(old_div(a4,A4))*(2.0*g*x[3])**0.5 + (old_div((1.0 - gm1),A4))*K1*u[0]
+    fx[3] = -(a4 / A4)*(2.0*g*x[3])**0.5 + ((1.0 - gm1) / A4)*K1*u[0]
     
     return fx
 
@@ -114,7 +110,7 @@ def User_fxp_Dis(x,t,u):
       
     # Explicit Runge-Kutta 4 (TC dynamics integrateed by hand)
     Mx = 5                   # Number of elements in each time step
-    dt = old_div(h,Mx)
+    dt = h / Mx
     x0 = x[2:6]
     fx_p[0:2] = u   
     for i in range(Mx):         
@@ -122,7 +118,7 @@ def User_fxp_Dis(x,t,u):
         k2 = Fdyn_p(x0 + dt/2.0*k1, u)
         k3 = Fdyn_p(x0 + dt/2.0*k2, u)
         k4 = Fdyn_p(x0 + dt*k3, u)
-        x0 = x0 + (old_div(dt,6.0))*(k1 + 2.0*k2 + 2.0*k3 + k4)
+        x0 = x0 + (dt / 6.0)*(k1 + 2.0*k2 + 2.0*k3 + k4)
     fx_p[2:6] = x0
     
     return fx_p
@@ -211,8 +207,8 @@ def Fdyn_m(x,u):
     # max flowrate [cm^3/s]
     q1_max = (a1+a4)*(2.0*g*h1_max)**0.5
     q2_max = (a2+a3)*(2.0*g*h2_max)**0.5
-    K1 = old_div(q1_max,100.0)
-    K2 = old_div(q2_max,100.0)
+    K1 = q1_max / 100.0
+    K2 = q2_max / 100.0
 
     fx = SX(4,1)
     
@@ -223,16 +219,16 @@ def Fdyn_m(x,u):
 
     # TC system of equations:
     ## tank #1 x[2]:fx_p[2] (left lower)
-    fx[0] = -(old_div(a1,A1))*(2.0*g*x[0])**0.5 + (old_div(a3,A1))*(2.0*g*x[2])**0.5 + (old_div(gm1,A1))*K1*u[0]
+    fx[0] = -(a1 / A1)*(2.0*g*x[0])**0.5 + (a3 / A1)*(2.0*g*x[2])**0.5 + (gm1 / A1)*K1*u[0]
     
     ## tank #2 x[3]:fx_p[3] (right lower)
-    fx[1] = -(old_div(a2,A2))*(2.0*g*x[1])**0.5 + (old_div(a4,A2))*(2.0*g*x[3])**0.5 + (old_div(gm2,A2))*K2*u[1]
+    fx[1] = -(a2 / A2)*(2.0*g*x[1])**0.5 + (a4 / A2)*(2.0*g*x[3])**0.5 + (gm2 / A2)*K2*u[1]
     
     ## tank #3 x[4]:fx_p[4] (left upper)
-    fx[2] = -(old_div(a3,A3))*(2.0*g*x[2])**0.5 + (old_div((1.0 - gm2),A3))*K2*u[1]
+    fx[2] = -(a3 / A3)*(2.0*g*x[2])**0.5 + ((1.0 - gm2) / A3)*K2*u[1]
     
     ## tank #4 x[5]:fx_p[5] (right upper)
-    fx[3] = -(old_div(a4,A4))*(2.0*g*x[3])**0.5 + (old_div((1.0 - gm1),A4))*K1*u[0]
+    fx[3] = -(a4 / A4)*(2.0*g*x[3])**0.5 + ((1.0 - gm1) / A4)*K1*u[0]
     
     return fx
     
@@ -260,7 +256,7 @@ def User_fxm_Dis(x,u,d,t):
 
     # Explicit Runge-Kutta 4 (TC dynamics integrateed by hand)       
     Mx = 5                   # Number of elements in each time step
-    dt = old_div(h,Mx)
+    dt = h / Mx
     x0 = x[2:6]
     fx_model[0:2] = u   
     for i in range(Mx):         
@@ -268,7 +264,7 @@ def User_fxm_Dis(x,u,d,t):
         k2 = Fdyn_m(x0 + dt/2.0*k1, u)
         k3 = Fdyn_m(x0 + dt/2.0*k2, u)
         k4 = Fdyn_m(x0 + dt*k3, u)
-        x0 = x0 + (old_div(dt,6.0))*(k1 + 2.0*k2 + 2.0*k3 + k4)
+        x0 = x0 + (dt / 6.0)*(k1 + 2.0*k2 + 2.0*k3 + k4)
     fx_model[2:6] = x0
                                
     return fx_model
